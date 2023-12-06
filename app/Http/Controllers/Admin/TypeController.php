@@ -3,33 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BrandRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\TypeRequest;
 use Yajra\DataTables\DataTables;
-use App\Models\Brand;
+use App\Models\Type;
 
-
-class BrandController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // datatables
         if(request()->ajax()) {
-            $query = Brand::query();
+            $query = Type::query();
 
         return DataTables::of($query) 
-            ->addColumn('action', function ($brand) {
+            ->addColumn('action', function ($type) {
                 return '
                         <a class="block w-full px-2 py-1 mb-1 text-xs text-center text-white transition duration-500 bg-gray-700 border border-gray-700 rounded-md select-none ease hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                        href="' . route('admin.brand.edit', $brand->id) . '">
+                        href="' . route('admin.type.edit', $type->id) . '">
                             Sunting
                         </a>
-                        <form class="block w-full" onsubmit="return confirm(\'Apakah anda yakin?\');" -block" action="' . route('admin.brand.destroy', $brand->id) . '" method="POST">
-                        <button class="w-full px-2 py-1 text-xs text-white transition duration-500 bg-red-500 border border-red-500 rounded-md select-none ease hover:bg-red-600 focus:outline-none focus:shadow-outline" >
+                        <form class="block w-full" onsubmit="return confirm(\'Apakah anda yakin?\');" -block" action="' . route('admin.type.destroy', $type->id) . '" method="POST">
+                        <button class="w-full px-2 py-1 text-xs text-white transition duration-500 rounded-md  bg-red-500 border border-red-500 rounded,-md select-none ease hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
                             ' . method_field('delete') . csrf_field() . '
@@ -40,10 +38,9 @@ class BrandController extends Controller
                     ->make();
         }
 
+        return view('admin.type.index');
+    
 
-        // return halaman Brand
-
-        return view('admin.brands.index');
     }
 
     /**
@@ -51,21 +48,20 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('admin.brands.create');
-    
+        return view('admin.type.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BrandRequest $request)
+    public function store(TypeRequest $request)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($data['name']) . '-' . Str::lower(Str::random(5));
 
-        Brand::create($data);
+        Type::create($data);
 
-        return redirect()->route('admin.brand.index')->with('success', 'Brand Save Completed');
+        return redirect()->route('admin.type.index')->with('success', 'Type Save Completed');
     }
 
     /**
@@ -79,33 +75,33 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(Type $type)
     {
-        return view('admin.brands.edit', [
-            'brand' => $brand,
+        return view('admin.type.edit', [
+            'type' => $type,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(BrandRequest $request, Brand $brand)
+    public function update(TypeRequest $request, Type $type)
     {
         $data = $request->all();
         $data['slug'] = Str::slug($data['name']) . '-' . Str::lower(Str::random(5));
 
-        $brand->update($data);
+        $type->update($data);
 
-        return redirect()->route('admin.brand.index');
+        return redirect()->route('admin.type.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brand $brand)
+    public function destroy(Type $type)
     {
-        $brand->delete();
+        $type->delete();
 
-        return redirect()->route('admin.brand.index');
+        return redirect()->route('admin.type.index');
     }
 }
