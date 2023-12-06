@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,5 @@ Route::prefix('admin')->name('admin.')->middleware([
     Route::resource('brand', BrandController::class);
     Route::resource('type', TypeController::class);
     Route::resource('item', ItemController::class);
+    Route::resource('booking', BookingController::class);
 });

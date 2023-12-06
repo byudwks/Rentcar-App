@@ -13,7 +13,18 @@ class Booking extends Model
 
     protected $guarded = ['id'];
 
-    public function booking(){
-        return $this->hasMany(Booking::class);
+    protected $dates = [
+        'start_date',
+        'end_date',
+    ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
