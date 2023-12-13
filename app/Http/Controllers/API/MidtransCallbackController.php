@@ -7,6 +7,7 @@ use Midtrans\Notification;
 use App\Models\Booking;
 use App\Http\Controllers\Controller;
 
+
 class MidtransCallbackController extends Controller
 {
     public function callback()
